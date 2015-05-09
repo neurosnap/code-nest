@@ -13,10 +13,50 @@ Summary
 Introduction
 ------------
 
-As nesting code increases, the complexity of the application increases,
-which reduces readability, maintainability, and ease of use.  It ought to follow
-that the really popular repositories on Github that are actively maintained, with
-a large community of collaborators will have lower levels of nesting.
+As code structure determines its function, the graphic design of code determines
+its maintainability. Indentation, while necessary for visualizing the flow
+control a program, is often assumed to be merely an aethestic appeal.
+However, what if indentation can help determine unnecessary code complexity?
+Abrupt code indentation tends to convolute control flow with minor details.
+[1](http://www.perforce.com/resources/white-papers/seven-pillars-pretty-code)
+Linus Torvalds think that greater than three levels of indentation is a code
+smell which is part of a greater design flaw
+
+> Now, some people will claim that having 8-character indentations makes
+> the code move too far to the right, and makes it hard to read on a
+> 80-character terminal screen.  The answer to that is that if you need
+> more than 3 levels of indentation, you're screwed anyway, and should fix
+> your program. [2](https://www.kernel.org/doc/Documentation/CodingStyle)
+
+In python, indentation is a rule not a guideline, any python script with misaligned
+code nesting will result in an `IndentationError: expected an indented block`.
+Again in python if you `import this` you'll get "The Zen of Python," otherwise
+known as [PEP20](https://www.python.org/dev/peps/pep-0020/), here is snippet from it:
+
+> __Flat is better than nested.__
+
+Studies by Noam Chomsky suggest that few people can understand more than three
+levels of nested ifs [3](http://www.amazon.com/Managing-structured-techniques-Strategies-development/dp/0917072561),
+and many researchers recommend avoiding nesting to more than four levels
+[4](http://www.amazon.com/Software-Reliability-Principles-Glenford-Myers/dp/0471627658)
+[5](http://www.amazon.com/Software-Engineering-Concepts-Professional-Vol/dp/0201122316%3FSubscriptionId%3D0JRA4J6WAV0RTAZVS6R2%26tag%3Dworldcat-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0201122316)
+
+Jeff Atwood thinks that nesting code has a high
+[cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity)
+value which is a measure of how many distinct paths there are through code.
+A lower cyclomatic complexity value correlates with more readable code,
+and also indicates how well it cane be properly tested.
+[5](http://blog.codinghorror.com/flattening-arrow-code/)
+
+Based on the research presented before us it ought to follow
+that the popular repositories on Github that are actively maintained, with
+a large community of collaborators will have lower levels of nesting.  Why is this
+important? Rarely does readability seem to play an important role in most
+undergraduate discussions when it can in fact be one of the most important
+characteristics of widely used and maintainable code. Code that is only
+understood by one person is code not worth maintaining -- and as a result poorly designed.
+We argue in this study that the blockbuster libraries in web development attempt
+to reduce the level of nesting in their code, whether implicitly or explicitly.
 
 Methods
 -------

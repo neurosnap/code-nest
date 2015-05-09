@@ -45,8 +45,8 @@ Jeff Atwood thinks that nesting code has a high
 [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity)
 value which is a measure of how many distinct paths there are through code.
 A lower cyclomatic complexity value correlates with more readable code,
-and also indicates how well it cane be properly tested.
-[5](http://blog.codinghorror.com/flattening-arrow-code/)
+and also indicates how well it can be properly tested.
+[6](http://blog.codinghorror.com/flattening-arrow-code/)
 
 Based on the research presented before us it ought to follow
 that the popular repositories on Github that are actively maintained, with

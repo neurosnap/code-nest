@@ -19,7 +19,7 @@ control a program, is often assumed to be merely an aethestic appeal.
 However, what if indentation can help determine unnecessary code complexity?
 Abrupt code indentation tends to convolute control flow with minor details.
 [1](http://www.perforce.com/resources/white-papers/seven-pillars-pretty-code)
-Linus Torvalds think that greater than three levels of indentation is a code
+Linus Torvalds thinks that greater than three levels of indentation is a code
 smell which is part of a greater design flaw
 
 > Now, some people will claim that having 8-character indentations makes
@@ -50,8 +50,8 @@ and also indicates how well it can be properly tested.
 
 Based on the research presented before us it ought to follow
 that the popular repositories on Github that are actively maintained, with
-a large community of collaborators will have lower levels of nesting.  Why is this
-important? Rarely does readability seem to play an important role in most
+a large community of collaborators will a flow of control that reduces abrupt nesting.
+Why is this important? Rarely does readability seem to play an important role in most
 undergraduate discussions when it can in fact be one of the most important
 characteristics of widely used and maintainable code. Code that is only
 understood by one person is code not worth maintaining -- and as a result poorly designed.

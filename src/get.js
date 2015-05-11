@@ -7,13 +7,7 @@ var getAsync = Promise.promisify(get);
 
 import { Repo } from './models.js';
 
-// Required to handle an array of promises
-// https://github.com/petkaantonov/bluebird/blob/master/API.md#promisecoroutineaddyieldhandlerfunction-handler---void
-Promise.coroutine.addYieldHandler(function(yielded_value) {
-  if (Array.isArray(yielded_value)) return Promise.all(yielded_value);
-});
-
-export var getPopularRepos = Promise.coroutine(function* (url, num_pages, gulp_cb) {
+export var popularRepos = Promise.coroutine(function* (url, num_pages, gulp_cb) {
   for (let i = 1; i <= num_pages; i++) {
     let url_page = url + i;
     let res;
@@ -54,5 +48,7 @@ export var getPopularRepos = Promise.coroutine(function* (url, num_pages, gulp_c
       console.log(result);
     }
   }
+
+  if (typeof gulp_cb === 'undefined') return;
   return gulp_cb();
 });

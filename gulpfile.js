@@ -10,14 +10,10 @@ var mongoose = require('mongoose');
 
 var config = require('./config');
 
-mongoose.connection.on('error', console.log);
+mongoose.connection.on('error', gutil.log);
 
 gulp.task('babel', function() {
   babeljs();
-});
-
-gulp.task('default', ['babel', 'popular', 'forks', 'download', 'format', 'nest', 'save'], function() {
-  console.log('Doing it all');
 });
 
 gulp.task('popular', function (cb) {
@@ -37,7 +33,7 @@ gulp.task('forks', function (cb) {
 gulp.task('download', function(cb) {
   connect();
   var git = require('./dist/git');
-  git.clone(cb);
+  git.clone(path.join(__dirname, 'repos'), cb);
   gulp.on('stop', disconnect);
 });
 
@@ -63,7 +59,7 @@ gulp.task('save', function() {
   var docs = models.Repo.find().exec(function(err, results) {
     fs.writeFile('./results.json', JSON.stringify(results, null, 2), function(err) {
       if (err) throw err;
-      console.log('File results.json saved');
+      gutil.log('File results.json saved');
       disconnect();
     });
   });
@@ -74,6 +70,16 @@ gulp.task('clear_db', function(cb) {
   connect();
   models.Repo.remove().exec(function(err, results) {
     if (err) throw err;
+    disconnect();
+  });
+});
+
+gulp.task('total', function(cb) {
+  var models = require('./dist/models');
+  connect();
+  models.Repo.find().exec(function(err, results) {
+    if (err) throw err;
+    gutil.log('Total repos: ' + results.length);
     disconnect();
   });
 });

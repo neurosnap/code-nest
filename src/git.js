@@ -4,35 +4,31 @@ import polyfill from 'babel/polyfill';
 import util from 'util';
 import fs from 'fs';
 import path from 'path';
-import Promise from 'bluebird';
-
-var mkdirAsync = Promise.promisify(fs.mkdir);
-
 import { exec } from 'child_process';
-var execAsync = Promise.promisify(exec);
-
+import Promise from 'bluebird';
 import { get } from 'needle';
-var getAsync = Promise.promisify(get);
-
 
 import { Repo } from './models.js';
 
-export var clone = Promise.coroutine(function* (gulp_cb) {
+var execAsync = Promise.promisify(exec);
+var getAsync = Promise.promisify(get);
+var mkdirAsync = Promise.promisify(fs.mkdir);
+
+export var clone = Promise.coroutine(function* (repo_dir, gulp_cb) {
   let repos = yield Repo.find().exec();
   if (!repos.length) {
     console.log('No repos found in mongodb, exiting');
     return;
   }
+
   console.log(`Starting to download ${repos.length} github repos ... this may take awhile`);
 
-  let repo_dir = path.join(path.dirname(__dirname), 'repos');
   try {
     yield mkdirAsync(repo_dir, 484);
   } catch (e) {
-    console.log(e);
+    console.log('Repo folder already exists, skipping ...');
   }
 
-  //repos.length
   for (let i = 0; i < repos.length; i++) {
     let repo = repos[i];
     try {
@@ -40,7 +36,7 @@ export var clone = Promise.coroutine(function* (gulp_cb) {
       let out = yield execAsync(`git clone ${repo.git_url}`, { cwd: repo_dir });
       console.log(out[1]);
     } catch (e) {
-      console.log(e);
+      console.log(`Folder already exists, skipping: ${e} ...`);
     }
   }
 

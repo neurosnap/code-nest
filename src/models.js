@@ -10,7 +10,10 @@ var RepoSchema = new Schema({
   ssh_url: { type: String, default: '', trim: true },
   size: { type: Number, default: 0 },
   forks: { type: Number, default: 0 },
-  stargazers_count: { type: Number, default: 0 }
+  stargazers_count: { type: Number, default: 0 },
+  max_indent: { type: Number, default: 0 },
+  avg_indent: { type: Number, default: 0.0 },
+  sum_indent: { type: Number, default: 0 }
 });
 
 module.exports = {

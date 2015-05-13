@@ -9,10 +9,11 @@ import Promise from 'bluebird';
 var mkdirAsync = Promise.promisify(fs.mkdir);
 
 import { exec } from 'child_process';
-var getAsync = Promise.promisify(get);
+var execAsync = Promise.promisify(exec);
 
 import { get } from 'needle';
-var execAsync = Promise.promisify(exec);
+var getAsync = Promise.promisify(get);
+
 
 import { Repo } from './models.js';
 
@@ -30,11 +31,12 @@ export var clone = Promise.coroutine(function* (gulp_cb) {
     console.log(e);
   }
 
+  //repos.length
   for (let i = 0; i < repos.length; i++) {
     let repo = repos[i];
     try {
       console.log(`Cloning ${repo.git_url} ...`);
-      let out = yield execAsync(`cd ${repo_dir} && git clone ${repo.git_url}`);
+      let out = yield execAsync(`git clone ${repo.git_url}`, { cwd: repo_dir });
       console.log(out[1]);
     } catch (e) {
       console.log(e);

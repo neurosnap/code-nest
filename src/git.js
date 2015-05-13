@@ -23,6 +23,7 @@ export var clone = Promise.coroutine(function* (gulp_cb) {
     console.log('No repos found in mongodb, exiting');
     return;
   }
+  console.log(`Starting to download ${repos.length} github repos ... this may take awhile`);
 
   let repo_dir = path.join(path.dirname(__dirname), 'repos');
   try {

@@ -23,14 +23,14 @@ gulp.task('default', ['babel', 'popular', 'forks', 'download', 'format', 'nest',
 gulp.task('popular', function (cb) {
   connect();
   var get = require('./dist/get');
-  get.popularRepos(compileUrl('stars'), 1, cb);
+  get.popularRepos(compileUrl('stars'), 20, cb);
   gulp.on('stop', disconnect);
 });
 
 gulp.task('forks', function (cb) {
   connect();
   var get = require('./dist/get');
-  get.popularRepos(compileUrl('forks'), 1, cb);
+  get.popularRepos(compileUrl('forks'), 20, cb);
   gulp.on('stop', disconnect);
 });
 

@@ -5,10 +5,8 @@ import Promise from 'bluebird';
 import { get } from 'needle';
 var getAsync = Promise.promisify(get);
 
-import { Repo } from './models.js';
-
-// 200 mb
-var MAX_SIZE = 200 * Math.pow(1024, 2);
+import { Repo } from './models';
+import { MAX_SIZE } from './constants';
 
 export var popularRepos = Promise.coroutine(function* (url, num_pages, gulp_cb) {
   for (let i = 1; i <= num_pages; i++) {

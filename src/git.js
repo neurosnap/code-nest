@@ -8,7 +8,8 @@ import { exec } from 'child_process';
 import Promise from 'bluebird';
 import { get } from 'needle';
 
-import { Repo } from './models.js';
+import { Repo } from './models';
+import { MAX_SIZE } from './constants';
 
 var execAsync = Promise.promisify(exec);
 var getAsync = Promise.promisify(get);
@@ -31,6 +32,10 @@ export var clone = Promise.coroutine(function* (repo_dir, gulp_cb) {
 
   for (let i = 0; i < repos.length; i++) {
     let repo = repos[i];
+    if (repo.size > MAX_SIZE) {
+      console.log(`${repo.name} is too large, skipping ...`);
+      continue;
+    }
     try {
       console.log(`Cloning ${repo.git_url} ...`);
       let out = yield execAsync(`git clone ${repo.git_url}`, { cwd: repo_dir });

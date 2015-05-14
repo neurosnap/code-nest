@@ -7,6 +7,9 @@ var getAsync = Promise.promisify(get);
 
 import { Repo } from './models.js';
 
+// 200 mb
+var MAX_SIZE = 200 * Math.pow(1024, 2);
+
 export var popularRepos = Promise.coroutine(function* (url, num_pages, gulp_cb) {
   for (let i = 1; i <= num_pages; i++) {
     let url_page = url + i;
@@ -25,6 +28,11 @@ export var popularRepos = Promise.coroutine(function* (url, num_pages, gulp_cb) 
       let repo_exists = yield Repo.find({ name: data.name }).exec();
       if (repo_exists.length > 0) {
         console.log(`Repo [${data.name}] already exists, skipping`);
+        continue;
+      }
+
+      if (data.size > MAX_SIZE) {
+        console.log(`Repo [${data.name}] too large, skipping`);
         continue;
       }
 

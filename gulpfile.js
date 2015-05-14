@@ -19,14 +19,14 @@ gulp.task('babel', function() {
 gulp.task('popular', function (cb) {
   connect();
   var get = require('./dist/get');
-  get.popularRepos(compileUrl('stars'), 20, cb);
+  get.popularRepos(compileUrl('stars'), 2, cb);
   gulp.on('stop', disconnect);
 });
 
 gulp.task('forks', function (cb) {
   connect();
   var get = require('./dist/get');
-  get.popularRepos(compileUrl('forks'), 20, cb);
+  get.popularRepos(compileUrl('forks'), 1, cb);
   gulp.on('stop', disconnect);
 });
 
@@ -38,11 +38,14 @@ gulp.task('download', function(cb) {
 });
 
 gulp.task('format', function(cb) {
+  connect();
   var beautify = require('./dist/beautify');
   beautify(
     path.join(__dirname, 'repos'),
-    path.join(__dirname, 'repos_beauty')
+    path.join(__dirname, 'repos_beauty'),
+    cb
   );
+  gulp.on('stop', disconnect);
 });
 
 gulp.task('nest', function(cb) {
@@ -93,9 +96,12 @@ function disconnect() {
   process.exit(0);
 }
 
-function compileUrl(sort) {
+function compileUrl(sort, lang) {
+  if (typeof sort === 'undefined') sort = 'stars';
+  if (typeof lang === 'undefined') lang = 'javascript';
+
   return config.github.url + '/search/repositories?access_token=' + config.github.key +
-    '&sort=' + sort + '&q=language:javascript&page=';
+    '&sort=' + sort + '&q=language:' + lang + '&page=';
 }
 
 function babeljs(src, dist) {

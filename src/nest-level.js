@@ -48,11 +48,13 @@ export var readRepo = Promise.coroutine(function* (dir, name, gulp_cb) {
   console.log(`Max Indent: ${max_indent}`);
   console.log(`Avg Indent: ${avg_indent}`);
   console.log(`Sum Indent: ${sum_indent}`);
+  console.log(`Num Files: ${files.length}`);
 
   let indent_data = {
     max_indent: max_indent,
     sum_indent: sum_indent,
-    avg_indent: avg_indent.toFixed(4)
+    avg_indent: avg_indent.toFixed(4),
+    num_files: files.length
   };
   return yield Repo.update({ name: name }, { $set: indent_data }).exec();
   //let repo = yield Repo.findOne({ name: name }).exec();
@@ -67,6 +69,8 @@ export var read = Promise.coroutine(function* (dir, gulp_cb) {
   let repos = yield readdir(dir);
   for (let i = 0; i < repos.length; i++) {
     let repo = repos[i];
+    let r = yield Repo.findOne({ name: repo }).exec();
+    if (r && r.sum_indent != 0) continue;
     yield readRepo(dir, repo);
   }
   return gulp_cb();

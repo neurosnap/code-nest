@@ -13,7 +13,8 @@ var RepoSchema = new Schema({
   stargazers_count: { type: Number, default: 0 },
   max_indent: { type: Number, default: 0 },
   avg_indent: { type: Number, default: 0.0 },
-  sum_indent: { type: Number, default: 0 }
+  sum_indent: { type: Number, default: 0 },
+  num_files: { type: Number, default: 0 }
 });
 
 module.exports = {

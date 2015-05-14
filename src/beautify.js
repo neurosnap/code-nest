@@ -10,10 +10,16 @@ export default function format(src, dist) {
     fs.statSync(src);
   } catch(err) { throw err; }
 
+  try {
+    fs.mkdirSync(dist);
+  } catch (e) {}
+
   var github_list = fs.readdirSync(src);
+  var filters = ['.git'];
+
   var walker = walk.walk(src, {
     followLinks: false,
-    filters: ['.git']
+    filters: filters
   });
 
   walker.on('file', function(root, file_stat, next) {
@@ -23,28 +29,25 @@ export default function format(src, dist) {
       return;
     }
 
+    var sdir = root.split(path.sep);
+
+    var new_dir;
+    for (var i = 0; i < sdir.length; i++) {
+      if (github_list.indexOf(sdir[i]) !== -1) {
+        new_dir = sdir[i];
+        break;
+      }
+    }
+
+    var new_output_dir = path.join(dist, new_dir);
+    try {
+      fs.mkdirSync(new_output_dir);
+    } catch (e) {}
+
     fs.readFile(path.resolve(root, fname), 'utf-8', function (err, data) {
       if (err) throw err;
-      var sdir = root.split(path.sep);
-
-      var new_dir;
-      for (var i = 0; i < sdir.length; i++) {
-        if (github_list.indexOf(sdir[i]) !== -1) {
-          new_dir = sdir[i];
-          break;
-        }
-      }
 
       var beauty = js_beautify(data, { indent_size: 4 });
-
-      try {
-        fs.mkdirSync(dist);
-      } catch (e) {}
-
-      var new_output_dir = path.join(dist, new_dir);
-      try {
-        fs.mkdirSync(new_output_dir);
-      } catch (e) {}
 
       var new_file = path.join(new_output_dir, fname);
       try {

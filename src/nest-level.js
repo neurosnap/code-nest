@@ -5,8 +5,9 @@ import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
 import Promise from 'bluebird';
-import { Repo } from './models.js';
 import lbl from 'n-readlines';
+
+import { Repo } from './models';
 
 var readdir = Promise.promisify(fs.readdir);
 

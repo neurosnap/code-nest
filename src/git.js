@@ -41,7 +41,7 @@ export var clone = Promise.coroutine(function* (repo_dir, gulp_cb) {
       let out = yield execAsync(`git clone ${repo.git_url}`, { cwd: repo_dir });
       console.log(out[1]);
     } catch (e) {
-      console.log(`Folder already exists, skipping: ${e} ...`);
+      console.log(`Folder already exists, skipping ...`);
     }
   }
 

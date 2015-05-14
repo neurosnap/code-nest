@@ -7,7 +7,7 @@ import walk from 'walk';
 import Promise from 'bluebird';
 import { js_beautify } from 'js-beautify';
 
-import { Repo } from './models.js';
+import { Repo } from './models';
 
 module.exports = Promise.coroutine(function* format(src, dist, gulp_cb) {
   try {

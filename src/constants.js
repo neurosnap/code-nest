@@ -1,3 +1,3 @@
 module.exports = {
-	MAX_SIZE: 200 * Math.pow(1024, 2)
+	MAX_SIZE: 500 * 1024
 };

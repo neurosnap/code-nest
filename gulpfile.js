@@ -59,14 +59,28 @@ gulp.task('nest', function(cb) {
 gulp.task('save', function() {
   var models = require('./dist/models');
   connect();
-  var docs = models.Repo.find().exec(function(err, results) {
+  var docs = models.Repo.find({ mode_indent: { $gt: 0 } }).exec(function(err, results) {
     fs.writeFile('./results.json', JSON.stringify(results, null, 2), function(err) {
       if (err) throw err;
       gutil.log('File results.json saved');
-      disconnect();
+      createCsv(results);
     });
   });
-})
+});
+
+function createCsv(repos) {
+  var csv = ['name', 'stars', 'forks', 'avg', 'mode', 'max', '\n'].join(',');
+  for (var i = 0; i < repos.length; i++) {
+    var repo = repos[i];
+    csv += [repo.name, repo.stargazers_count, repo.forks, repo.avg_indent,
+            repo.mode_indent, repo.max_indent, '\n'].join(',');
+  }
+  fs.writeFile('./results.csv', csv, function(err) {
+    if (err) throw err;
+    gutil.log('File results.csv saved');
+    disconnect();
+  });
+}
 
 gulp.task('clear_db', function(cb) {
   var models = require('./dist/models');

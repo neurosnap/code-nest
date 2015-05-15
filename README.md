@@ -1,15 +1,6 @@
 Measuring nesting level of popular Github repositories
 ======================================================
 
-Hypothesis
-----------
-
-As the popularity of a Github repository increases,
-the lower the average level of nesting in the source code.
-
-Summary
--------
-
 Introduction
 ------------
 
@@ -50,7 +41,7 @@ and also indicates how well it can be properly tested.
 
 Based on the research presented before us it ought to follow
 that the popular repositories on Github that are actively maintained, with
-a large community of collaborators will a flow of control that reduces abrupt nesting.
+a large community of collaborators will have source code that reduces abrupt nesting.
 Why is this important? Rarely does readability seem to play an important role in most
 undergraduate discussions when it can in fact be one of the most important
 characteristics of widely used and maintainable code. Code that is only
@@ -82,17 +73,18 @@ Once the repositories are downloaded, we scan the documents for all javascript f
 and then measure their indentation level.  Indentation level is determined by
 the number of space and tab characters in the left margin line-by-line.
 
-We then measure the average and max level of nesting per repository and store them
+We then measure the average, mode, and max level of nesting per repository and store them
 in their corresponding repository document in MongoDB.
 
 Results
 -------
 
-Analysis
---------
+We downloaded 826 of the most popular javascript repositories on github.  The
+total average indentation level for all repositories was `3.26`.  The total average
+mode indentation level for all repositories was `2.74`.
 
-Conclusion
-----------
+![Avg indent over stars](http://i.imgur.com/LyWjNYn.png)
+![Avg indent over forks](http://i.imgur.com/E2awxSr.png)
 
 References
 ----------

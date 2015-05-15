@@ -30,9 +30,6 @@ export var readRepo = Promise.coroutine(function* (dir, name, gulp_cb) {
         else break;
       }
       let indent = spaces / indent_length;
-      /*if (indent % 1) {
-        console.log(indent + ': ' + line);
-      }*/
       // dont count 0 indent and dont include indents that are fractions
       if (indent != 0 && !(indent % 1)) indents.push(indent);
     }
@@ -72,21 +69,16 @@ export var readRepo = Promise.coroutine(function* (dir, name, gulp_cb) {
     last_updated: Date.now()
   };
   return yield Repo.update({ name: name }, { $set: indent_data }).exec();
-  //let repo = yield Repo.findOne({ name: name }).exec();
-  //console.log(repo);
-
-  //if (typeof gulp_cb === 'undefined') return;
-  //return gulp_cb();
-  //return Promise.resolve();
 });
 
-export var read = Promise.coroutine(function* (dir, gulp_cb) {
+export var read = Promise.coroutine(function* (dir, gulp_cb, overwrite=false) {
   let repos = yield readdir(dir);
   for (let i = 0; i < repos.length; i++) {
     let repo = repos[i];
     let r = yield Repo.findOne({ name: repo }).exec();
-    if (r && r.sum_indent != 0) continue;
+    if (!overwrite && r && r.mode_indent != 0) continue;
     yield readRepo(dir, repo);
   }
+  if (typeof gulp_cb === 'undefined') return;
   return gulp_cb();
 });

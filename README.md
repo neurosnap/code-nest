@@ -86,6 +86,33 @@ mode indentation level for all repositories was `2.74`.
 ![Avg indent over stars](http://i.imgur.com/LyWjNYn.png)
 ![Avg indent over forks](http://i.imgur.com/E2awxSr.png)
 
+Replicate
+---------
+
+Requirements:
+* NodeJS > 0.11
+* Mongodb
+
+```
+git clone [git_url] [repo_name]
+cd [repo_name]
+npm install
+```
+
+`config.js` must be created with proper github personal token key and mongodb URI
+to work properly.  `config_default.js` shows the overall structure.
+
+Gulp tasks need to be executed in this order:
+
+```
+gulp popular
+gulp forks
+gulp download
+gulp format
+gulp nest
+gulp save
+```
+
 References
 ----------
 

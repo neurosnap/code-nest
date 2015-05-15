@@ -6,9 +6,7 @@ import { get } from 'needle';
 var getAsync = Promise.promisify(get);
 
 import { Repo } from './models';
-import { MAX_SIZE } from './constants';
-
-var blacklist = ['dataanalysis', 'engine'];
+import { MAX_SIZE, BLACKLIST } from './constants';
 
 export var popularRepos = Promise.coroutine(function* (url, num_pages, gulp_cb) {
   for (let i = 1; i <= num_pages; i++) {
@@ -38,7 +36,7 @@ export var popularRepos = Promise.coroutine(function* (url, num_pages, gulp_cb) 
         continue;
       }
 
-      if (blacklist.indexOf(data.name) >= 0) {
+      if (BLACKLIST.indexOf(data.name) >= 0) {
         console.log(`Repo [${data.name}] blacklisted, skipping`);
       }
 

@@ -19,14 +19,14 @@ gulp.task('babel', function() {
 gulp.task('popular', function (cb) {
   connect();
   var get = require('./dist/get');
-  get.popularRepos(compileUrl('stars'), 2, cb);
+  get.popularRepos(compileUrl('stars'), 20, cb);
   gulp.on('stop', disconnect);
 });
 
 gulp.task('forks', function (cb) {
   connect();
   var get = require('./dist/get');
-  get.popularRepos(compileUrl('forks'), 1, cb);
+  get.popularRepos(compileUrl('forks'), 20, cb);
   gulp.on('stop', disconnect);
 });
 
@@ -69,11 +69,11 @@ gulp.task('save', function() {
 });
 
 function createCsv(repos) {
-  var csv = ['name', 'stars', 'forks', 'avg', 'mode', 'max', '\n'].join(',');
+  var csv = ['name', 'stars', 'forks', 'avg', 'mode', 'max', 'lines', 'files', '\n'].join(',');
   for (var i = 0; i < repos.length; i++) {
     var repo = repos[i];
     csv += [repo.name, repo.stargazers_count, repo.forks, repo.avg_indent,
-            repo.mode_indent, repo.max_indent, '\n'].join(',');
+            repo.mode_indent, repo.max_indent, repo.num_lines, repo.num_files, '\n'].join(',');
   }
   fs.writeFile('./results.csv', csv, function(err) {
     if (err) throw err;

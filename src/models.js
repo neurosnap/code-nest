@@ -15,6 +15,7 @@ var RepoSchema = new Schema({
   avg_indent: { type: Number, default: 0.0 },
   sum_indent: { type: Number, default: 0 },
   num_files: { type: Number, default: 0 },
+  num_lines: { type: Number, default: 0 },
   mode_indent: { type: Number, default: 0 },
   frequency: [{ indent: { type: Number, default: 0 }, value: { type: Number, default: 0 } }],
   last_updated: { type: Date, default: Date.now }

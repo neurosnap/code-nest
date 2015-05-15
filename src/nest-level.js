@@ -49,10 +49,12 @@ export var readRepo = Promise.coroutine(function* (dir, name, gulp_cb) {
     frequency[indent] = frequency[indent] ? frequency[indent] + 1 : 1;
   }
   let fin_freq = [];
-  for (let freq in frequency) {
-    fin_freq.push({ indent: freq, value: frequency[freq] });
+  for (let indent in frequency) {
+    fin_freq.push({ indent: indent, value: frequency[indent] });
   }
-  let mode_indent = fin_freq.reduce(function(a, b) { return (a.value > b.value) ? a : b });
+  let mode_indent = fin_freq.reduce(function(a, b) {
+    return (a.value > b.value) ? a : b
+  });
   console.log(`Max Indent: ${max_indent}`);
   console.log(`Avg Indent: ${avg_indent}`);
   console.log(`Sum Indent: ${sum_indent}`);
@@ -66,6 +68,7 @@ export var readRepo = Promise.coroutine(function* (dir, name, gulp_cb) {
     mode_indent: mode_indent.indent,
     frequency: fin_freq,
     num_files: files.length,
+    num_lines: indents.length,
     last_updated: Date.now()
   };
   return yield Repo.update({ name: name }, { $set: indent_data }).exec();
